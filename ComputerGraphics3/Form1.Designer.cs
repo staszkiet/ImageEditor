@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -39,6 +40,14 @@
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             splitContainer1 = new SplitContainer();
             pictureBox1 = new PictureBox();
+            customButton = new RadioButton();
+            bezierChart = new PictureBox();
+            button3 = new Button();
+            button2 = new Button();
+            button1 = new Button();
+            trackBar1 = new TrackBar();
+            contrastTrackBar = new TrackBar();
+            BrightnessTrackBar = new TrackBar();
             gammaButton = new RadioButton();
             contrastButton = new RadioButton();
             brightnessButton = new RadioButton();
@@ -48,14 +57,21 @@
             chartBlue = new System.Windows.Forms.DataVisualization.Charting.Chart();
             chartGreen = new System.Windows.Forms.DataVisualization.Charting.Chart();
             chartRed = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            usuńPunktToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bezierChart).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)contrastTrackBar).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)BrightnessTrackBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chartBlue).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chartGreen).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chartRed).BeginInit();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // splitContainer1
@@ -70,6 +86,14 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(customButton);
+            splitContainer1.Panel2.Controls.Add(bezierChart);
+            splitContainer1.Panel2.Controls.Add(button3);
+            splitContainer1.Panel2.Controls.Add(button2);
+            splitContainer1.Panel2.Controls.Add(button1);
+            splitContainer1.Panel2.Controls.Add(trackBar1);
+            splitContainer1.Panel2.Controls.Add(contrastTrackBar);
+            splitContainer1.Panel2.Controls.Add(BrightnessTrackBar);
             splitContainer1.Panel2.Controls.Add(gammaButton);
             splitContainer1.Panel2.Controls.Add(contrastButton);
             splitContainer1.Panel2.Controls.Add(brightnessButton);
@@ -97,10 +121,95 @@
             pictureBox1.MouseMove += pictureBox1_MouseMove;
             pictureBox1.MouseUp += pictureBox1_MouseUp;
             // 
+            // customButton
+            // 
+            customButton.AutoSize = true;
+            customButton.Location = new Point(292, 366);
+            customButton.Name = "customButton";
+            customButton.Size = new Size(96, 29);
+            customButton.TabIndex = 16;
+            customButton.TabStop = true;
+            customButton.Text = "custom";
+            customButton.UseVisualStyleBackColor = true;
+            customButton.CheckedChanged += customButton_CheckedChanged;
+            // 
+            // bezierChart
+            // 
+            bezierChart.BackColor = SystemColors.ControlLightLight;
+            bezierChart.Location = new Point(283, 402);
+            bezierChart.Name = "bezierChart";
+            bezierChart.Size = new Size(220, 229);
+            bezierChart.TabIndex = 15;
+            bezierChart.TabStop = false;
+            bezierChart.Click += bezierChart_Click;
+            bezierChart.Paint += bezierChart_Paint;
+            bezierChart.DoubleClick += bezierChart_DoubleClick;
+            bezierChart.MouseClick += bezierChart_MouseClick;
+            bezierChart.MouseDown += bezierChart_MouseDown;
+            bezierChart.MouseMove += bezierChart_MouseMove;
+            bezierChart.MouseUp += bezierChart_MouseUp;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(142, 658);
+            button3.Name = "button3";
+            button3.Size = new Size(144, 34);
+            button3.TabIndex = 14;
+            button3.Text = "dodaj wielokąt";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(24, 658);
+            button2.Name = "button2";
+            button2.Size = new Size(112, 34);
+            button2.TabIndex = 13;
+            button2.Text = "pędzel";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(142, 698);
+            button1.Name = "button1";
+            button1.Size = new Size(112, 34);
+            button1.TabIndex = 12;
+            button1.Text = "zastosuj";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // trackBar1
+            // 
+            trackBar1.Location = new Point(292, 300);
+            trackBar1.Maximum = 200;
+            trackBar1.Name = "trackBar1";
+            trackBar1.Size = new Size(156, 69);
+            trackBar1.TabIndex = 11;
+            trackBar1.ValueChanged += trackBar1_ValueChanged;
+            // 
+            // contrastTrackBar
+            // 
+            contrastTrackBar.Location = new Point(292, 190);
+            contrastTrackBar.Maximum = 120;
+            contrastTrackBar.Name = "contrastTrackBar";
+            contrastTrackBar.Size = new Size(156, 69);
+            contrastTrackBar.TabIndex = 10;
+            contrastTrackBar.Value = 55;
+            contrastTrackBar.ValueChanged += contrastTrackBar_ValueChanged;
+            // 
+            // BrightnessTrackBar
+            // 
+            BrightnessTrackBar.Location = new Point(292, 82);
+            BrightnessTrackBar.Maximum = 255;
+            BrightnessTrackBar.Name = "BrightnessTrackBar";
+            BrightnessTrackBar.Size = new Size(156, 69);
+            BrightnessTrackBar.TabIndex = 9;
+            BrightnessTrackBar.Value = 100;
+            BrightnessTrackBar.ValueChanged += BrightnessTrackBar_ValueChanged;
+            // 
             // gammaButton
             // 
             gammaButton.AutoSize = true;
-            gammaButton.Location = new Point(236, 613);
+            gammaButton.Location = new Point(292, 265);
             gammaButton.Name = "gammaButton";
             gammaButton.Size = new Size(98, 29);
             gammaButton.TabIndex = 8;
@@ -112,7 +221,7 @@
             // contrastButton
             // 
             contrastButton.AutoSize = true;
-            contrastButton.Location = new Point(126, 648);
+            contrastButton.Location = new Point(295, 155);
             contrastButton.Name = "contrastButton";
             contrastButton.Size = new Size(101, 29);
             contrastButton.TabIndex = 7;
@@ -124,7 +233,7 @@
             // brightnessButton
             // 
             brightnessButton.AutoSize = true;
-            brightnessButton.Location = new Point(126, 613);
+            brightnessButton.Location = new Point(292, 47);
             brightnessButton.Name = "brightnessButton";
             brightnessButton.Size = new Size(104, 29);
             brightnessButton.TabIndex = 6;
@@ -139,14 +248,14 @@
             applyButton.Name = "applyButton";
             applyButton.Size = new Size(112, 34);
             applyButton.TabIndex = 5;
-            applyButton.Text = "zastosuj";
+            applyButton.Text = "wypełnij";
             applyButton.UseVisualStyleBackColor = true;
             applyButton.Click += applyButton_Click;
             // 
             // noFilterButton
             // 
             noFilterButton.AutoSize = true;
-            noFilterButton.Location = new Point(29, 648);
+            noFilterButton.Location = new Point(389, 12);
             noFilterButton.Name = "noFilterButton";
             noFilterButton.Size = new Size(98, 29);
             noFilterButton.TabIndex = 4;
@@ -158,7 +267,7 @@
             // negateButton
             // 
             negateButton.AutoSize = true;
-            negateButton.Location = new Point(29, 613);
+            negateButton.Location = new Point(292, 12);
             negateButton.Name = "negateButton";
             negateButton.Size = new Size(91, 29);
             negateButton.TabIndex = 3;
@@ -216,6 +325,19 @@
             chartRed.Text = "chart1";
             chartRed.Click += chart1_Click;
             // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.ImageScalingSize = new Size(24, 24);
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { usuńPunktToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(241, 69);
+            // 
+            // usuńPunktToolStripMenuItem
+            // 
+            usuńPunktToolStripMenuItem.Name = "usuńPunktToolStripMenuItem";
+            usuńPunktToolStripMenuItem.Size = new Size(240, 32);
+            usuńPunktToolStripMenuItem.Text = "Usuń punkt";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -230,9 +352,14 @@
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bezierChart).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)contrastTrackBar).EndInit();
+            ((System.ComponentModel.ISupportInitialize)BrightnessTrackBar).EndInit();
             ((System.ComponentModel.ISupportInitialize)chartBlue).EndInit();
             ((System.ComponentModel.ISupportInitialize)chartGreen).EndInit();
             ((System.ComponentModel.ISupportInitialize)chartRed).EndInit();
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -249,5 +376,15 @@
         private RadioButton brightnessButton;
         private RadioButton contrastButton;
         private RadioButton gammaButton;
+        private TrackBar BrightnessTrackBar;
+        private TrackBar contrastTrackBar;
+        private TrackBar trackBar1;
+        private Button button1;
+        private Button button2;
+        private Button button3;
+        private PictureBox bezierChart;
+        private RadioButton customButton;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem usuńPunktToolStripMenuItem;
     }
 }

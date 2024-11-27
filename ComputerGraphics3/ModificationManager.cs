@@ -12,6 +12,13 @@ namespace ComputerGraphics3
 
     }
 
+    public class NothingManager : ModificationManager
+    {
+        public override Color ModifyPixel(Color r)
+        {
+            return r;
+        }
+    }
     public class NegationManager : ModificationManager
     {
         public override Color ModifyPixel(Color r)
@@ -44,6 +51,16 @@ namespace ComputerGraphics3
         public override Color ModifyPixel(Color r)
         {
             return Color.FromArgb(Helpers.nigamma(r.R, gamma), Helpers.nigamma(r.G, gamma), Helpers.nigamma(r.B, gamma));
+        }
+    }
+
+    public class CustomManager : ModificationManager
+    {
+        public static Dictionary<int, int> mapping;
+
+        public override Color ModifyPixel(Color r)
+        {
+            return Color.FromArgb(mapping[r.R], mapping[r.G], mapping[r.R]);
         }
     }
 }

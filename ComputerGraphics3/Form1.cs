@@ -1,6 +1,7 @@
 
 
 using Microsoft.VisualBasic.ApplicationServices;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -12,21 +13,21 @@ namespace ComputerGraphics3
         public int[] Red = new int[256];
         public int[] Green = new int[256];
         public int[] Blue = new int[256];
-        public readonly Bitmap original;
+        public Bitmap original;
         public Bitmap b;
-        public int radius = 10;
-        public Modification mod = Modification.noFilter;
+        public int radius = 20;
         public bool drawing = false;
-        int light = 100;
-        int contrast_low = 55;
-        int constrast_high = 200;
-        double gamma = 2d;
+        public bool mouseDown = false;
+        ModificationManager manager = new NothingManager();
+        BezierFunc bezier;
         public Form1()
         {
             InitializeComponent();
             original = new Bitmap("C:\\Users\\zaprz\\source\\repos\\ComputerGraphics3\\ComputerGraphics3\\Saul.jpg");
             b = new Bitmap(original);
             pictureBox1.Image = b;
+            bezier = new BezierFunc(new Point(0, bezierChart.Height - 1), new Point(bezierChart.Width - 1, 0));
+            CustomManager.mapping = bezier.mapping;
             MakeRedHistogram();
             MakeGreenHistogram();
             MakeBlueHistogram();
@@ -55,7 +56,7 @@ namespace ComputerGraphics3
         }
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-   
+
         }
 
         void MakeBlueHistogram()
@@ -109,7 +110,7 @@ namespace ComputerGraphics3
             chartRed.Series.Clear();
             chartRed.ChartAreas.Clear();
             ChartArea chartArea = new ChartArea();
-            chartArea.AxisX.Minimum = 0; 
+            chartArea.AxisX.Minimum = 0;
             chartRed.ChartAreas.Add(chartArea);
             Series series = new Series
             {
@@ -164,6 +165,7 @@ namespace ComputerGraphics3
         }
         private void chart1_Click(object sender, EventArgs e)
         {
+
             chartRed.Update();
         }
 
@@ -171,7 +173,7 @@ namespace ComputerGraphics3
         {
             if (negateButton.Checked)
             {
-                mod = Modification.negate;
+                manager = new NegationManager();
             }
         }
 
@@ -179,64 +181,19 @@ namespace ComputerGraphics3
         {
             if (noFilterButton.Checked)
             {
-                mod = Modification.noFilter;
+                manager = new NothingManager();
             }
         }
 
         private void applyButton_Click(object sender, EventArgs e)
         {
-            if (mod == Modification.negate)
+            for (int i = 0; i < b.Width; i++)
             {
-                for (int i = 0; i < b.Width; i++)
+                for (int j = 0; j < b.Height; j++)
                 {
-                    for (int j = 0; j < b.Height; j++)
-                    {
-                        Color r = original.GetPixel(i, j);
-                        Color new_color = Color.FromArgb(255 - r.R, 255 - r.G, 255 - r.B);
-                        b.SetPixel(i, j, new_color);
-                    }
-                }
-            }
-            else if (mod == Modification.noFilter)
-            {
-                b = new Bitmap(original);
-                pictureBox1.Image = b;
-            }
-            else if (mod == Modification.light)
-            {
-                for (int i = 0; i < b.Width; i++)
-                {
-                    for (int j = 0; j < b.Height; j++)
-                    {
-                        Color r = original.GetPixel(i, j);
-                        Color new_color = Color.FromArgb(Helpers.Brighten(r.R, light), Helpers.Brighten(r.G, light), Helpers.Brighten(r.B, light));
-                        b.SetPixel(i, j, new_color);
-                    }
-                }
-            }
-            else if (mod == Modification.contrast)
-            {
-
-                for (int i = 0; i < b.Width; i++)
-                {
-                    for (int j = 0; j < b.Height; j++)
-                    {
-                        Color c = original.GetPixel(i, j);
-                        Color new_color = Color.FromArgb(Helpers.Contrast(c.R, contrast_low, constrast_high), Helpers.Contrast(c.G, contrast_low, constrast_high), Helpers.Contrast(c.B, contrast_low, constrast_high));
-                        b.SetPixel(i, j, new_color);
-                    }
-                }
-            }
-            else if(mod == Modification.gamma)
-            {
-                for (int i = 0; i < b.Width; i++)
-                {
-                    for (int j = 0; j < b.Height; j++)
-                    {
-                        Color r = original.GetPixel(i, j);
-                        Color new_color = Color.FromArgb(Helpers.nigamma(r.R, gamma), Helpers.nigamma(r.G, gamma), Helpers.nigamma(r.B, gamma));
-                        b.SetPixel(i, j, new_color);
-                    }
+                    Color r = original.GetPixel(i, j);
+                    Color new_color = manager.ModifyPixel(r);
+                    b.SetPixel(i, j, new_color);
                 }
             }
             UpdateHistograms();
@@ -247,50 +204,8 @@ namespace ComputerGraphics3
         {
 
         }
-        void GammaArea(int x, int y, int x2, int y2)
-        {
-            y = y < 0 ? 0 : y;
-            x = x < 0 ? 0 : x;
-            x2 = x2 >= b.Width ? b.Width - 1 : x2;
-            y2 = y2 >= b.Height ? b.Height - 1 : y2;
-            int centerX = x + radius;
-            int centerY = y + radius;
-            for (int i = x; i <= x2; i = i + 1)
-            {
-                for (int j = y; j <= y2; j = j + 1)
-                {
-                    if (Helpers.distance(i, j, centerX, centerY) <= radius)
-                    {
-                        Color r = original.GetPixel(i, j);
-                        Color new_color = Color.FromArgb(Helpers.nigamma(r.R, gamma), Helpers.nigamma(r.G, gamma), Helpers.nigamma(r.B, gamma));
-                        b.SetPixel(i, j, new_color);
-                    }
-                }
-            }
-        }
 
-        void ContrastArea(int x, int y, int x2, int y2)
-        {
-            y = y < 0 ? 0 : y;
-            x = x < 0 ? 0 : x;
-            x2 = x2 >= b.Width ? b.Width - 1 : x2;
-            y2 = y2 >= b.Height ? b.Height - 1 : y2;
-            int centerX = x + radius;
-            int centerY = y + radius;
-            for (int i = x; i <= x2; i = i + 1)
-            {
-                for (int j = y; j <= y2; j = j + 1)
-                {
-                    if (Helpers.distance(i, j, centerX, centerY) <= radius)
-                    {
-                        Color c = original.GetPixel(i, j);
-                        Color new_color = Color.FromArgb(Helpers.Contrast(c.R, contrast_low, constrast_high), Helpers.Contrast(c.G, contrast_low, constrast_high), Helpers.Contrast(c.B, contrast_low, constrast_high));
-                        b.SetPixel(i, j, new_color);
-                    }
-                }
-            }
-        }
-        void BrightenArea(int x, int y, int x2, int y2)
+        void UpdateArea(int x, int y, int x2, int y2)
         {
             y = y < 0 ? 0 : y;
             x = x < 0 ? 0 : x;
@@ -305,28 +220,7 @@ namespace ComputerGraphics3
                     if (Helpers.distance(i, j, centerX, centerY) <= radius)
                     {
                         Color r = original.GetPixel(i, j);
-                        Color new_color = Color.FromArgb(Helpers.Brighten(r.R, light), Helpers.Brighten(r.G, light), Helpers.Brighten(r.B, light));
-                        b.SetPixel(i, j, new_color);
-                    }
-                }
-            }
-        }
-        void NegateArea(int x, int y, int x2, int y2)
-        {
-            y = y < 0 ? 0 : y;
-            x = x < 0 ? 0 : x;
-            x2 = x2 >= b.Width ? b.Width - 1 : x2;
-            y2 = y2 >= b.Height ? b.Height - 1 : y2;
-            int centerX = x + radius;
-            int centerY = y + radius;
-            for (int i = x; i <= x2; i = i + 1)
-            {
-                for (int j = y; j <= y2; j = j + 1)
-                {
-                    if (Helpers.distance(i, j, centerX, centerY) <= radius)
-                    {
-                        Color r = original.GetPixel(i, j);
-                        Color new_color = Color.FromArgb(255 - r.R, 255 - r.G, 255 - r.B);
+                        Color new_color = manager.ModifyPixel(r);
                         b.SetPixel(i, j, new_color);
                     }
                 }
@@ -338,10 +232,7 @@ namespace ComputerGraphics3
             drawing = true;
             if (e.X < b.Width && e.Y < b.Height)
             {
-                if (mod == Modification.negate)
-                {
-                    NegateArea(e.X - radius, e.Y - radius, e.X + radius, e.Y + radius);
-                }
+                UpdateArea(e.X - radius, e.Y - radius, e.X + radius, e.Y + radius);
             }
             pictureBox1.Invalidate();
         }
@@ -358,22 +249,7 @@ namespace ComputerGraphics3
             {
                 if (e.X < b.Width && e.Y < b.Height)
                 {
-                    if (mod == Modification.negate)
-                    {
-                        NegateArea(e.X - radius, e.Y - radius, e.X + radius, e.Y + radius);
-                    }
-                    else if (mod == Modification.light)
-                    {
-                        BrightenArea(e.X - radius, e.Y - radius, e.X + radius, e.Y + radius);
-                    }
-                    else if (mod == Modification.contrast)
-                    {
-                        ContrastArea(e.X - radius, e.Y - radius, e.X + radius, e.Y + radius);
-                    }
-                    else if (mod == Modification.gamma)
-                    {
-                        GammaArea(e.X - radius, e.Y - radius, e.X + radius, e.Y + radius);
-                    }
+                    UpdateArea(e.X - radius, e.Y - radius, e.X + radius, e.Y + radius);
                 }
             }
             pictureBox1.Invalidate();
@@ -383,7 +259,7 @@ namespace ComputerGraphics3
         {
             if (brightnessButton.Checked)
             {
-                mod = Modification.light;
+                manager = new BrightnessManager();
             }
         }
 
@@ -391,7 +267,7 @@ namespace ComputerGraphics3
         {
             if (contrastButton.Checked)
             {
-                mod = Modification.contrast;
+                manager = new ContrastManager();
             }
         }
 
@@ -399,10 +275,104 @@ namespace ComputerGraphics3
         {
             if (gammaButton.Checked)
             {
-                mod = Modification.gamma;
+                manager = new GammaManager();
             }
         }
-    }
 
-    public enum Modification{ negate, noFilter, light, contrast, gamma}
+        private void BrightnessTrackBar_ValueChanged(object sender, EventArgs e)
+        {
+            BrightnessManager.light = BrightnessTrackBar.Value;
+        }
+
+        private void contrastTrackBar_ValueChanged(object sender, EventArgs e)
+        {
+            ContrastManager.contrast_low = contrastTrackBar.Value;
+            ContrastManager.constrast_high = 255 - contrastTrackBar.Value;
+        }
+
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            GammaManager.gamma = trackBar1.Value / 50d;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            original = new Bitmap(b);
+        }
+
+        private void bezierChart_Paint(object sender, PaintEventArgs e)
+        {
+            bezier.Draw(e.Graphics);
+        }
+
+        private void bezierChart_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bezierChart_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void bezierChart_MouseDown(object sender, MouseEventArgs e)
+        {
+            Point l = new Point(e.Location.X, e.Location.Y);
+            if (e.Button == MouseButtons.Right) 
+            {
+                for (int i = 1; i < bezier.ControlPoints.Count - 1; i++)
+                {
+                    if (Helpers.distance(l.X, l.Y, bezier.ControlPoints[i].X, bezier.ControlPoints[i].Y) < 10)
+                    {
+                        bezier.ControlPoints.RemoveAt(i);
+                        bezierChart.Invalidate();
+                        return;
+                    }
+                }
+            }
+            mouseDown = true;
+            for (int i = 1; i < bezier.ControlPoints.Count - 1; i++)
+            {
+                if (Helpers.distance(l.X, l.Y, bezier.ControlPoints[i].X, bezier.ControlPoints[i].Y) < 10)
+                {
+                    bezier.Selected = bezier.ControlPoints[i];
+                    return;
+                }
+            }
+            PointC pom = new PointC(l);
+            int idx = bezier.ControlPoints.FindIndex((x) => x.X > l.X);
+            bezier.ControlPoints.Insert(idx, pom);
+            bezier.Selected = pom;
+            bezierChart.Invalidate();
+        }
+
+        private void bezierChart_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseDown)
+            {
+                bezier.Selected.P = new Point(e.Location.X, e.Location.Y);
+                bezierChart.Invalidate();
+            }
+        }
+
+        private void bezierChart_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown = false;
+        }
+
+        private void customButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (customButton.Checked)
+            {
+                manager = new CustomManager();
+            }
+        }
+
+        private void bezierChart_DoubleClick(object sender, EventArgs e)
+        {
+            
+        }
+    }
+    public enum State { Brush, AddPolygon }
 }
+

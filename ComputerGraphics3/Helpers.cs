@@ -27,5 +27,18 @@ namespace ComputerGraphics3
             int ret = color < low ? 0 : (int)(color * 255f / (float)(high - low));
             return ret > 255 ? 255 : ret;
         }
+
+        public static int binom(int n, int k)
+        {
+            return factorial(n) / (factorial(k) * factorial(n - k));
+        }
+        public static int factorial(int p)
+        {
+            if (p == 0)
+            {
+                return 1;
+            }
+            return factorial(p - 1) * p;
+        }
     }
 }
