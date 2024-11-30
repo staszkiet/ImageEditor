@@ -1,6 +1,7 @@
 
 
 using Microsoft.VisualBasic.ApplicationServices;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml.Schema;
@@ -18,11 +19,15 @@ namespace ComputerGraphics3
         public int radius = 20;
         public bool drawing = false;
         public bool mouseDown = false;
+        public State stan = State.Brush;
         ModificationManager manager = new NothingManager();
         BezierFunc bezier;
+        List<PointC> unfinishedShape = new List<PointC>();
+        Shape? polygon = null;
         public Form1()
         {
             InitializeComponent();
+            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, splitContainer1.Panel1, new object[] { true });
             original = new Bitmap("C:\\Users\\zaprz\\source\\repos\\ComputerGraphics3\\ComputerGraphics3\\Saul.jpg");
             b = new Bitmap(original);
             pictureBox1.Image = b;
@@ -56,7 +61,13 @@ namespace ComputerGraphics3
         }
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-
+            if (stan == State.AddPolygon)
+            {
+                foreach (PointC p in unfinishedShape)
+                {
+                    e.Graphics.FillEllipse(new SolidBrush(Color.Green), p.X - 3, p.Y - 3, 6, 6);
+                }
+            }
         }
 
         void MakeBlueHistogram()
@@ -229,10 +240,29 @@ namespace ComputerGraphics3
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            drawing = true;
-            if (e.X < b.Width && e.Y < b.Height)
+            if (stan == State.Brush)
             {
-                UpdateArea(e.X - radius, e.Y - radius, e.X + radius, e.Y + radius);
+                drawing = true;
+                if (e.X < b.Width && e.Y < b.Height)
+                {
+                    UpdateArea(e.X - radius, e.Y - radius, e.X + radius, e.Y + radius);
+                }
+            }
+            else if (stan == State.AddPolygon)
+            {
+                if (polygon == null)
+                {
+                    if (unfinishedShape.Count > 0 && Helpers.distance(unfinishedShape[0].X, unfinishedShape[0].Y, e.X, e.Y) < 10)
+                    {
+                        polygon = new Shape(unfinishedShape, manager);
+                        polygon.Fill(b, original, false);
+                        unfinishedShape = new List<PointC>();
+                    }
+                    else
+                    {
+                        unfinishedShape.Add(new PointC(e.X, e.Y));
+                    }
+                }
             }
             pictureBox1.Invalidate();
         }
@@ -318,7 +348,7 @@ namespace ComputerGraphics3
         private void bezierChart_MouseDown(object sender, MouseEventArgs e)
         {
             Point l = new Point(e.Location.X, e.Location.Y);
-            if (e.Button == MouseButtons.Right) 
+            if (e.Button == MouseButtons.Right)
             {
                 for (int i = 1; i < bezier.ControlPoints.Count - 1; i++)
                 {
@@ -370,7 +400,27 @@ namespace ComputerGraphics3
 
         private void bezierChart_DoubleClick(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            stan = State.AddPolygon;
+            unfinishedShape = new List<PointC>();
+            pictureBox1.Invalidate();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            stan = State.Brush;
+            pictureBox1.Invalidate();
+        }
+
+        private void deletepolygonButton_Click(object sender, EventArgs e)
+        {
+            polygon.Fill(b, original, true);
+            polygon = null;
+            pictureBox1.Invalidate();
         }
     }
     public enum State { Brush, AddPolygon }

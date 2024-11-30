@@ -32,13 +32,13 @@ namespace ComputerGraphics3
         {
             return factorial(n) / (factorial(k) * factorial(n - k));
         }
-        public static int factorial(int p)
+        public static int factorial(int p, int acc = 1)
         {
             if (p == 0)
             {
-                return 1;
+                return acc;
             }
-            return factorial(p - 1) * p;
+            return factorial(p - 1, acc * p);
         }
     }
 }

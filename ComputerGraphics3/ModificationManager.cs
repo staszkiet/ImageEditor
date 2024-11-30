@@ -63,4 +63,5 @@ namespace ComputerGraphics3
             return Color.FromArgb(mapping[r.R], mapping[r.G], mapping[r.R]);
         }
     }
+
 }
