@@ -18,7 +18,7 @@ namespace ComputerGraphics3
             ControlPoints.Add(new PointC(end));
         }
 
-        public void Draw(Graphics g)
+        public void Draw(Graphics g, int Height, int Width)
         {
             //g.DrawLine(p, start, end);
             Brush b = new SolidBrush(Color.Black);
@@ -27,7 +27,7 @@ namespace ComputerGraphics3
                 g.FillEllipse(new SolidBrush(Color.Green), point.X - 5, point.Y - 5,  10, 10);
             }
             double t = 0d;
-            double interval = 1d / 1000d;
+            double interval = 1d / 255d;
             double x;
             double y;
             int n = ControlPoints.Count;
@@ -40,7 +40,10 @@ namespace ComputerGraphics3
                     x += Helpers.binom(n-1, i) * Math.Pow((1 - t), n - i - 1) * Math.Pow(t, i) * ControlPoints[i].X;
                     y += Helpers.binom(n-1, i) * Math.Pow((1 - t), n - i - 1) * Math.Pow(t, i) * ControlPoints[i].Y;
                 }
-                mapping[(int)x] = (int)y;
+                int newX = (int)((255d / Width) * x);
+                int newVal = (Height - 1) - (int)Math.Round(y);
+                int newY = (int)((255d / Height) * newVal);
+                mapping[newX] = newY;
                 g.FillRectangle(b, (int)x, (int)y, 1, 1);
                 t+= interval;
             }

@@ -29,17 +29,18 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             splitContainer1 = new SplitContainer();
             pictureBox1 = new PictureBox();
+            deletepolygonButton = new Button();
             customButton = new RadioButton();
             bezierChart = new PictureBox();
             button3 = new Button();
@@ -59,7 +60,6 @@
             chartRed = new System.Windows.Forms.DataVisualization.Charting.Chart();
             contextMenuStrip1 = new ContextMenuStrip(components);
             usuńPunktToolStripMenuItem = new ToolStripMenuItem();
-            deletepolygonButton = new Button();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -105,8 +105,8 @@
             splitContainer1.Panel2.Controls.Add(chartBlue);
             splitContainer1.Panel2.Controls.Add(chartGreen);
             splitContainer1.Panel2.Controls.Add(chartRed);
-            splitContainer1.Size = new Size(978, 744);
-            splitContainer1.SplitterDistance = 459;
+            splitContainer1.Size = new Size(1063, 744);
+            splitContainer1.SplitterDistance = 498;
             splitContainer1.TabIndex = 0;
             // 
             // pictureBox1
@@ -114,7 +114,7 @@
             pictureBox1.Dock = DockStyle.Fill;
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(459, 744);
+            pictureBox1.Size = new Size(498, 744);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click;
@@ -122,6 +122,16 @@
             pictureBox1.MouseDown += pictureBox1_MouseDown;
             pictureBox1.MouseMove += pictureBox1_MouseMove;
             pictureBox1.MouseUp += pictureBox1_MouseUp;
+            // 
+            // deletepolygonButton
+            // 
+            deletepolygonButton.Location = new Point(260, 698);
+            deletepolygonButton.Name = "deletepolygonButton";
+            deletepolygonButton.Size = new Size(154, 34);
+            deletepolygonButton.TabIndex = 17;
+            deletepolygonButton.Text = "usuń wielokąt";
+            deletepolygonButton.UseVisualStyleBackColor = true;
+            deletepolygonButton.Click += deletepolygonButton_Click;
             // 
             // customButton
             // 
@@ -140,7 +150,7 @@
             bezierChart.BackColor = SystemColors.ControlLightLight;
             bezierChart.Location = new Point(283, 402);
             bezierChart.Name = "bezierChart";
-            bezierChart.Size = new Size(220, 229);
+            bezierChart.Size = new Size(219, 227);
             bezierChart.TabIndex = 15;
             bezierChart.TabStop = false;
             bezierChart.Click += bezierChart_Click;
@@ -282,48 +292,48 @@
             // 
             // chartBlue
             // 
-            chartArea4.Name = "ChartArea1";
-            chartBlue.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            chartBlue.Legends.Add(legend4);
+            chartArea1.Name = "ChartArea1";
+            chartBlue.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            chartBlue.Legends.Add(legend1);
             chartBlue.Location = new Point(24, 411);
             chartBlue.Name = "chartBlue";
-            series4.ChartArea = "ChartArea1";
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            chartBlue.Series.Add(series4);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            chartBlue.Series.Add(series1);
             chartBlue.Size = new Size(243, 177);
             chartBlue.TabIndex = 2;
             chartBlue.Text = "chart1";
             // 
             // chartGreen
             // 
-            chartArea5.Name = "ChartArea1";
-            chartGreen.ChartAreas.Add(chartArea5);
-            legend5.Name = "Legend1";
-            chartGreen.Legends.Add(legend5);
+            chartArea2.Name = "ChartArea1";
+            chartGreen.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            chartGreen.Legends.Add(legend2);
             chartGreen.Location = new Point(24, 213);
             chartGreen.Name = "chartGreen";
-            series5.ChartArea = "ChartArea1";
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            chartGreen.Series.Add(series5);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            chartGreen.Series.Add(series2);
             chartGreen.Size = new Size(243, 182);
             chartGreen.TabIndex = 1;
             chartGreen.Text = "chart1";
             // 
             // chartRed
             // 
-            chartArea6.Name = "ChartArea1";
-            chartRed.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            chartRed.Legends.Add(legend6);
+            chartArea3.Name = "ChartArea1";
+            chartRed.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            chartRed.Legends.Add(legend3);
             chartRed.Location = new Point(24, 12);
             chartRed.Name = "chartRed";
-            series6.ChartArea = "ChartArea1";
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            chartRed.Series.Add(series6);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            chartRed.Series.Add(series3);
             chartRed.Size = new Size(243, 186);
             chartRed.TabIndex = 0;
             chartRed.Text = "chart1";
@@ -342,21 +352,11 @@
             usuńPunktToolStripMenuItem.Size = new Size(175, 32);
             usuńPunktToolStripMenuItem.Text = "Usuń punkt";
             // 
-            // deletepolygonButton
-            // 
-            deletepolygonButton.Location = new Point(260, 698);
-            deletepolygonButton.Name = "deletepolygonButton";
-            deletepolygonButton.Size = new Size(154, 34);
-            deletepolygonButton.TabIndex = 17;
-            deletepolygonButton.Text = "usuń wielokąt";
-            deletepolygonButton.UseVisualStyleBackColor = true;
-            deletepolygonButton.Click += deletepolygonButton_Click;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(978, 744);
+            ClientSize = new Size(1063, 744);
             Controls.Add(splitContainer1);
             Name = "Form1";
             Text = "Form1";

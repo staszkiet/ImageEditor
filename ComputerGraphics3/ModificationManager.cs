@@ -50,7 +50,7 @@ namespace ComputerGraphics3
         public static double gamma = 2d;
         public override Color ModifyPixel(Color r)
         {
-            return Color.FromArgb(Helpers.nigamma(r.R, gamma), Helpers.nigamma(r.G, gamma), Helpers.nigamma(r.B, gamma));
+            return Color.FromArgb(Helpers.gamma(r.R, gamma), Helpers.gamma(r.G, gamma), Helpers.gamma(r.B, gamma));
         }
     }
 
@@ -60,7 +60,7 @@ namespace ComputerGraphics3
 
         public override Color ModifyPixel(Color r)
         {
-            return Color.FromArgb(mapping[r.R], mapping[r.G], mapping[r.R]);
+            return Color.FromArgb(mapping[r.R], mapping[r.G], mapping[r.B]);
         }
     }
 

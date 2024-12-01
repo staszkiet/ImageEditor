@@ -13,7 +13,7 @@ namespace ComputerGraphics3
             return (int)Math.Sqrt((x - x1)*(x - x1) +  (y - y1)*(y - y1));
         }
 
-        public static int nigamma(int val, double gamma)
+        public static int gamma(int val, double gamma)
         {
             return (int)(255d * Math.Pow(val / 255d, gamma));
         }

@@ -332,7 +332,7 @@ namespace ComputerGraphics3
 
         private void bezierChart_Paint(object sender, PaintEventArgs e)
         {
-            bezier.Draw(e.Graphics);
+            bezier.Draw(e.Graphics, bezierChart.Height, bezierChart.Width);
         }
 
         private void bezierChart_Click(object sender, EventArgs e)
@@ -380,7 +380,9 @@ namespace ComputerGraphics3
         {
             if (mouseDown)
             {
-                bezier.Selected.P = new Point(e.Location.X, e.Location.Y);
+                int X = e.Location.X < 0 ? 0 : e.Location.X >= bezierChart.Width ? bezierChart.Width - 1 : e.Location.X;
+                int Y = e.Location.Y < 0 ? 0 : e.Location.Y >= bezierChart.Height ? bezierChart.Height - 1 : e.Location.Y;
+                bezier.Selected.P = new Point(X, Y);
                 bezierChart.Invalidate();
             }
         }
