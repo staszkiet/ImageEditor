@@ -1,5 +1,5 @@
 # Image Editor
-Program in WintForms which allows users to edit their images by applying effects to the image such as:
+Program in WinForms which allows users to edit their images by applying effects to the image such as:
 - negation
 - changing contrast
 - gamma correction
